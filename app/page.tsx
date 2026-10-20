@@ -1,69 +1,115 @@
-import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, GraduationCap } from "lucide-react";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col justify-between font-sans">
+      {/* Header */}
+      <header className="px-6 py-4 border-b border-slate-200 bg-white flex items-center justify-between">
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center">
+            <GraduationCap size={18} />
+          </div>
+          <span className="font-bold text-slate-900 text-sm tracking-tight">
+            Crimpy Soal &amp; Evaluasi
+          </span>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+
+        <div className="flex items-center gap-2 text-xs">
+          <Link
+            href="/quiz"
+            className="px-3 py-1.5 rounded-lg text-slate-600 hover:text-blue-600 font-medium transition-colors"
           >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            Portal Siswa
+          </Link>
+          <Link
+            href="/admin"
+            className="px-3.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-xs shadow-blue-600/20 transition-all"
           >
-            Documentation
-          </a>
+            Web Admin
+          </Link>
+        </div>
+      </header>
+
+      {/* Hero Section */}
+      <main className="max-w-4xl mx-auto w-full px-4 py-16 sm:py-24 flex-1 flex flex-col items-center justify-center text-center">
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight max-w-2xl leading-tight">
+          Pengelolaan Soal &amp; Evaluasi Siswa
+        </h1>
+        <p className="mt-3 text-slate-500 text-sm sm:text-base max-w-lg leading-relaxed">
+          Platform manajemen bab materi, bank soal pilihan ganda &amp; essay, serta portal ujian siswa terintegrasi Supabase.
+        </p>
+
+        {/* Dual Access Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-10 w-full max-w-2xl text-left">
+          {/* Card 1: Admin Panel */}
+          <div className="p-6 rounded-xl bg-white border border-slate-200 shadow-xs flex flex-col justify-between hover:border-blue-300 transition-colors">
+            <div>
+              <span className="text-xs font-bold text-blue-600 block mb-1">Guru &amp; Pengelola</span>
+              <h2 className="text-base font-bold text-slate-900">
+                Panel Web Admin
+              </h2>
+              <p className="text-slate-500 text-xs mt-1.5 leading-relaxed">
+                Kelola bab materi pertemuan, susun bank soal pilihan ganda beserta kunci jawaban A–D, soal essay, dan kelola nilai siswa.
+              </p>
+            </div>
+
+            <Link
+              href="/admin"
+              className="mt-6 inline-flex items-center justify-between px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs shadow-xs shadow-blue-600/20 transition-all"
+            >
+              <span>Masuk Admin</span>
+              <ArrowRight size={14} />
+            </Link>
+          </div>
+
+          {/* Card 2: Student Quiz Portal */}
+          <div className="p-6 rounded-xl bg-white border border-slate-200 shadow-xs flex flex-col justify-between hover:border-emerald-300 transition-colors">
+            <div>
+              <span className="text-xs font-bold text-emerald-600 block mb-1">Siswa Peserta</span>
+              <h2 className="text-base font-bold text-slate-900">
+                Portal Siswa
+              </h2>
+              <p className="text-slate-500 text-xs mt-1.5 leading-relaxed">
+                Siswa mengisi identitas (nama &amp; kelas), memilih pertemuan materi yang diujikan, dan langsung mengerjakan soal.
+              </p>
+            </div>
+
+            <Link
+              href="/quiz"
+              className="mt-6 inline-flex items-center justify-between px-4 py-2 rounded-lg bg-white border border-slate-300 hover:border-emerald-400 hover:bg-emerald-50/40 text-slate-800 font-semibold text-xs transition-all"
+            >
+              <span>Mulai Ujian</span>
+              <ArrowRight size={14} />
+            </Link>
+          </div>
+        </div>
+
+        {/* Minimal Feature Row with subtle color indicators */}
+        <div className="mt-14 pt-8 border-t border-slate-200 grid grid-cols-2 sm:grid-cols-4 gap-4 text-left w-full max-w-2xl text-xs">
+          <div>
+            <span className="font-semibold text-blue-600 block">Pertemuan</span>
+            <span className="text-slate-500">Struktur materi rapi</span>
+          </div>
+          <div>
+            <span className="font-semibold text-indigo-600 block">Pilihan Ganda</span>
+            <span className="text-slate-500">Opsi A–D &amp; kunci</span>
+          </div>
+          <div>
+            <span className="font-semibold text-purple-600 block">Hasil &amp; Nilai</span>
+            <span className="text-slate-500">Koreksi &amp; export CSV</span>
+          </div>
+          <div>
+            <span className="font-semibold text-emerald-600 block">Database</span>
+            <span className="text-slate-500">Supabase realtime</span>
+          </div>
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="p-4 text-center text-xs text-slate-400 border-t border-slate-200">
+        Crimpy Platform
+      </footer>
     </div>
   );
 }
