@@ -205,9 +205,9 @@ export default function AdminDashboardPage() {
                 </Link>
                 <div className="flex items-center gap-1.5 text-xs">
                   <Link
-                    href={`/admin/results?meetingId=${m.id}&tab=essay`}
+                    href={`/admin/essays?meetingId=${m.id}`}
                     className="font-medium text-blue-600 hover:text-blue-700 transition-colors"
-                    title="Koreksi Jawaban Essay"
+                    title="Jawaban Essay"
                   >
                     Essay
                   </Link>
