@@ -145,7 +145,7 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Metrics Row - Clean Neutral Numbers */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
         <div className="bg-white border border-slate-200 rounded-xl p-4">
           <span className="text-xs font-medium text-slate-500">Total Pertemuan</span>
           <div className="text-2xl font-bold text-slate-900 mt-1">
@@ -154,26 +154,6 @@ export default function AdminDashboardPage() {
           <Link href="/admin/meetings" className="text-[11px] text-slate-500 hover:text-blue-600 mt-2 inline-flex items-center gap-1 transition-colors">
             Kelola bab <ArrowRight size={11} />
           </Link>
-        </div>
-
-        <div className="bg-white border border-slate-200 rounded-xl p-4">
-          <span className="text-xs font-medium text-slate-500">Bank Soal</span>
-          <div className="text-2xl font-bold text-slate-900 mt-1">
-            {loading ? "-" : stats.totalQuestions + stats.totalEssayQuestions}
-          </div>
-          <Link href="/admin/results?tab=essay" className="text-[11px] text-slate-500 hover:text-blue-600 mt-2 inline-flex items-center gap-1 transition-colors">
-            Koreksi {stats.totalEssayQuestions} essay <ArrowRight size={11} />
-          </Link>
-        </div>
-
-        <div className="bg-white border border-slate-200 rounded-xl p-4">
-          <span className="text-xs font-medium text-slate-500">Siswa Terdaftar</span>
-          <div className="text-2xl font-bold text-slate-900 mt-1">
-            {loading ? "-" : stats.totalStudents}
-          </div>
-          <span className="text-[11px] text-slate-400 mt-2 block">
-            {stats.totalAttempts} submission
-          </span>
         </div>
 
         <div className="bg-white border border-slate-200 rounded-xl p-4">
