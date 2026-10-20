@@ -1,38 +1,84 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { 
   LayoutDashboard, 
   Layers, 
   HelpCircle, 
   Award, 
+  FileText,
   ExternalLink,
   Menu,
   X,
   GraduationCap
 } from "lucide-react";
-import { useState } from "react";
+import { useState, Suspense } from "react";
+
+interface NavItem {
+  name: string;
+  href: string;
+  icon: typeof LayoutDashboard;
+  exact?: boolean;
+  isResults?: boolean;
+  isEssay?: boolean;
+}
+
+const navigation: NavItem[] = [
+  { name: "Dashboard", href: "/admin", icon: LayoutDashboard, exact: true },
+  { name: "Pertemuan", href: "/admin/meetings", icon: Layers },
+  { name: "Bank Soal", href: "/admin/questions", icon: HelpCircle },
+  { name: "Hasil Siswa", href: "/admin/results", icon: Award, isResults: true },
+  { name: "Jawaban Essay", href: "/admin/results?tab=essay", icon: FileText, isEssay: true },
+];
+
+function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const currentTab = searchParams.get("tab");
+
+  const isActive = (item: NavItem) => {
+    if (item.isEssay) {
+      return pathname === "/admin/results" && currentTab === "essay";
+    }
+    if (item.isResults) {
+      return pathname === "/admin/results" && currentTab !== "essay";
+    }
+    if (item.exact) return pathname === item.href;
+    return pathname.startsWith(item.href);
+  };
+
+  return (
+    <nav className="flex-1 px-2.5 py-4 space-y-1 overflow-y-auto">
+      {navigation.map((item) => {
+        const active = isActive(item);
+        const Icon = item.icon;
+        return (
+          <Link
+            key={item.name}
+            href={item.href}
+            onClick={onNavigate}
+            className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
+              active
+                ? "bg-blue-50 text-blue-700 font-semibold"
+                : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+            }`}
+          >
+            <Icon size={16} className={active ? "text-blue-600" : "text-slate-400"} />
+            <span>{item.name}</span>
+          </Link>
+        );
+      })}
+    </nav>
+  );
+}
 
 export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const navigation = [
-    { name: "Dashboard", href: "/admin", icon: LayoutDashboard, exact: true },
-    { name: "Pertemuan", href: "/admin/meetings", icon: Layers },
-    { name: "Bank Soal", href: "/admin/questions", icon: HelpCircle },
-    { name: "Hasil Siswa", href: "/admin/results", icon: Award },
-  ];
-
-  const isActive = (itemHref: string, exact?: boolean) => {
-    if (exact) return pathname === itemHref;
-    return pathname.startsWith(itemHref);
-  };
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col md:flex-row font-sans">
@@ -68,28 +114,17 @@ export default function AdminLayout({
           </Link>
         </div>
 
-        {/* Navigation Items */}
-        <nav className="flex-1 px-2.5 py-4 space-y-1 overflow-y-auto">
-          {navigation.map((item) => {
-            const active = isActive(item.href, item.exact);
-            const Icon = item.icon;
-            return (
-              <Link
-                key={item.name}
-                href={item.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
-                  active
-                    ? "bg-blue-50 text-blue-700 font-semibold"
-                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
-                }`}
-              >
-                <Icon size={16} className={active ? "text-blue-600" : "text-slate-400"} />
-                <span>{item.name}</span>
-              </Link>
-            );
-          })}
-        </nav>
+        {/* Navigation Items in Suspense for searchParams */}
+        <Suspense
+          fallback={
+            <div className="flex-1 px-2.5 py-4 space-y-1">
+              <div className="h-8 bg-slate-100 rounded-lg animate-pulse" />
+              <div className="h-8 bg-slate-100 rounded-lg animate-pulse" />
+            </div>
+          }
+        >
+          <NavLinks onNavigate={() => setMobileMenuOpen(false)} />
+        </Suspense>
 
         {/* Bottom Link to Student Portal */}
         <div className="p-3 border-t border-slate-100">
@@ -98,26 +133,18 @@ export default function AdminLayout({
             target="_blank"
             className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-blue-600 hover:bg-blue-50 transition-colors"
           >
-            <span>Portal Siswa</span>
-            <ExternalLink size={13} className="text-blue-500" />
+            <span>Simulasi Siswa</span>
+            <ExternalLink size={13} />
           </Link>
         </div>
       </aside>
 
-      {/* Backdrop for mobile */}
-      {mobileMenuOpen && (
-        <div
-          onClick={() => setMobileMenuOpen(false)}
-          className="fixed inset-0 z-30 bg-slate-900/30 md:hidden"
-        />
-      )}
-
       {/* Main Content Area */}
-      <main className="flex-1 flex flex-col min-w-0 bg-slate-50">
-        <div className="p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto w-full">
+      <div className="flex-1 flex flex-col min-w-0">
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
           {children}
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 }

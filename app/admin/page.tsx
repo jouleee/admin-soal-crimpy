@@ -161,9 +161,9 @@ export default function AdminDashboardPage() {
           <div className="text-2xl font-bold text-slate-900 mt-1">
             {loading ? "-" : stats.totalQuestions + stats.totalEssayQuestions}
           </div>
-          <span className="text-[11px] text-slate-400 mt-2 block">
-            {stats.totalQuestions} PG • {stats.totalEssayQuestions} Essay
-          </span>
+          <Link href="/admin/results?tab=essay" className="text-[11px] text-slate-500 hover:text-blue-600 mt-2 inline-flex items-center gap-1 transition-colors">
+            Koreksi {stats.totalEssayQuestions} essay <ArrowRight size={11} />
+          </Link>
         </div>
 
         <div className="bg-white border border-slate-200 rounded-xl p-4">
@@ -223,12 +223,23 @@ export default function AdminDashboardPage() {
                 >
                   Kelola Soal
                 </Link>
-                <Link
-                  href={`/admin/results?meetingId=${m.id}`}
-                  className="text-slate-400 hover:text-slate-700 transition-colors"
-                >
-                  Hasil Siswa
-                </Link>
+                <div className="flex items-center gap-1.5 text-xs">
+                  <Link
+                    href={`/admin/results?meetingId=${m.id}&tab=essay`}
+                    className="font-medium text-blue-600 hover:text-blue-700 transition-colors"
+                    title="Koreksi Jawaban Essay"
+                  >
+                    Essay
+                  </Link>
+                  <span className="text-slate-300">•</span>
+                  <Link
+                    href={`/admin/results?meetingId=${m.id}`}
+                    className="text-slate-400 hover:text-slate-700 transition-colors"
+                    title="Rekap Nilai"
+                  >
+                    Nilai
+                  </Link>
+                </div>
               </div>
             </div>
           ))}
